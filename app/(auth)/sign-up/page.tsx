@@ -6,8 +6,6 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('')
@@ -54,24 +52,22 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-normal text-gray-800">GPAI Case Competition</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md p-8">
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-light text-gray-900 mb-8">GPAI Case Competition</h1>
         </div>
         
-        <Card className="border rounded-lg shadow-sm">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-2xl font-normal text-center">Create account</CardTitle>
-          </CardHeader>
-        <form onSubmit={handleSignUp}>
-          <CardContent className="space-y-4">
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-medium text-gray-900 mb-6">Create account</h2>
+          <form onSubmit={handleSignUp} className="space-y-5">
             {error && (
-              <div className="rounded p-3 text-sm text-red-700 bg-red-50">
+              <div className="rounded-lg p-3 text-sm text-red-700 bg-red-50 border border-red-200">
                 {error}
               </div>
             )}
-            <div className="space-y-2">
+            
+            <div>
               <Input
                 id="email"
                 type="email"
@@ -80,10 +76,11 @@ export default function SignUpPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
-                className="h-11"
+                className="w-full h-12 px-4 text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            <div className="space-y-2">
+            
+            <div>
               <Input
                 id="password"
                 type="password"
@@ -92,10 +89,11 @@ export default function SignUpPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={loading}
-                className="h-11"
+                className="w-full h-12 px-4 text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            <div className="space-y-2">
+            
+            <div>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -104,27 +102,26 @@ export default function SignUpPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 disabled={loading}
-                className="h-11"
+                className="w-full h-12 px-4 text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4 pt-2">
+            
             <Button 
               type="submit" 
-              className="w-full h-10" 
+              className="w-full h-12 text-base font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" 
               disabled={loading}
             >
               {loading ? 'Creating account...' : 'Sign up'}
             </Button>
-            <div className="text-center text-sm">
+            
+            <div className="text-center pt-4 text-sm">
               <span className="text-gray-600">Already have an account? </span>
-              <Link href="/sign-in" className="text-blue-600 hover:underline">
+              <Link href="/sign-in" className="text-blue-600 hover:text-blue-800 transition-colors">
                 Sign in
               </Link>
             </div>
-          </CardFooter>
-        </form>
-      </Card>
+          </form>
+        </div>
       </div>
     </div>
   )
