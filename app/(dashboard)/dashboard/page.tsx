@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { FileIcon, Trash2Icon, UploadIcon, FileText, FileImage, CheckCircle, Clock, AlertCircle } from 'lucide-react'
+import { UploadIcon } from 'lucide-react'
 
 interface FileRecord {
   id: string
@@ -174,171 +174,82 @@ export default function DashboardPage() {
   }
 
   return (
-    <div>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Competition Dashboard</h1>
-        <p className="mt-2 text-gray-600">Submit your case solutions and track your progress</p>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="border-0 shadow-md">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Total Submissions</p>
-                <p className="text-2xl font-bold">{files.length}</p>
-              </div>
-              <FileText className="h-8 w-8 text-primary opacity-80" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-md">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Status</p>
-                <p className="text-2xl font-bold text-green-600">Active</p>
-              </div>
-              <CheckCircle className="h-8 w-8 text-green-600 opacity-80" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-md">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Deadline</p>
-                <p className="text-2xl font-bold">Dec 31</p>
-              </div>
-              <Clock className="h-8 w-8 text-orange-600 opacity-80" />
-            </div>
-          </CardContent>
-        </Card>
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-2xl font-semibold text-gray-900">Dashboard</h2>
+        <p className="mt-1 text-sm text-gray-600">Upload and manage your competition submissions</p>
       </div>
 
       {/* Upload Section */}
-      <Card className="border-0 shadow-lg mb-8">
-        <CardHeader className="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-t-lg">
-          <CardTitle className="text-xl">Submit Your Solution</CardTitle>
-          <CardDescription className="text-purple-100">
-            Upload your case competition files (PDF or PowerPoint, max 20MB)
+      <Card>
+        <CardHeader>
+          <CardTitle>Upload Submission</CardTitle>
+          <CardDescription>
+            Upload PDF or PowerPoint files (max 20MB)
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent>
           {error && (
-            <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-4 mb-4 flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-destructive mt-0.5" />
-              <span className="text-sm text-destructive">{error}</span>
+            <div className="rounded bg-red-50 p-3 text-sm text-red-700 mb-4">
+              {error}
             </div>
           )}
           
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
-            <UploadIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="file-upload" className="cursor-pointer">
-                  <span className="text-primary hover:text-primary/80 font-medium">Click to upload</span>
-                  <span className="text-gray-500"> or drag and drop</span>
-                </Label>
-                <Input
-                  id="file-upload"
-                  type="file"
-                  accept=".pdf,.ppt,.pptx"
-                  onChange={handleFileChange}
-                  disabled={uploading}
-                  className="hidden"
-                />
-                <p className="text-xs text-gray-500 mt-2">PDF, PPT, PPTX up to 20MB</p>
-              </div>
-              
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="file-upload">Select file</Label>
+              <Input
+                id="file-upload"
+                type="file"
+                accept=".pdf,.ppt,.pptx"
+                onChange={handleFileChange}
+                disabled={uploading}
+                className="mt-1"
+              />
               {file && (
-                <div className="bg-purple-50 rounded-lg p-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <FileIcon className="h-5 w-5 text-purple-600" />
-                    <div className="text-left">
-                      <p className="text-sm font-medium text-gray-900">{file.name}</p>
-                      <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setFile(null)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <Trash2Icon className="h-4 w-4" />
-                  </button>
-                </div>
+                <p className="text-sm text-gray-600 mt-2">
+                  Selected: {file.name} ({formatFileSize(file.size)})
+                </p>
               )}
             </div>
+            
+            <Button 
+              onClick={handleUpload} 
+              disabled={!file || uploading}
+            >
+              {uploading ? 'Uploading...' : 'Upload'}
+            </Button>
           </div>
-          
-          <Button 
-            onClick={handleUpload} 
-            disabled={!file || uploading}
-            className="w-full mt-6 h-11"
-          >
-            {uploading ? (
-              <>Uploading...</>
-            ) : (
-              <>
-                <UploadIcon className="mr-2 h-4 w-4" />
-                Upload Solution
-              </>
-            )}
-          </Button>
         </CardContent>
       </Card>
 
       {/* Submissions Section */}
-      <Card className="border-0 shadow-lg" id="submissions">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-xl">Your Submissions</CardTitle>
+          <CardTitle>Your Files</CardTitle>
           <CardDescription>
-            View and manage your uploaded competition files
+            Manage your uploaded files
           </CardDescription>
         </CardHeader>
         <CardContent>
           {files.length === 0 ? (
-            <div className="text-center py-12">
-              <FileText className="mx-auto h-12 w-12 text-gray-300 mb-4" />
-              <p className="text-muted-foreground">No submissions yet</p>
-              <p className="text-sm text-gray-500 mt-2">Upload your first solution above to get started</p>
-            </div>
+            <p className="text-gray-500 text-sm">No files uploaded yet</p>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {files.map((file) => (
                 <div
                   key={file.id}
-                  className="group flex items-center justify-between rounded-lg border hover:border-primary/30 p-4 transition-all hover:shadow-md"
+                  className="flex items-center justify-between p-3 border rounded"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
-                      {file.type.includes('pdf') ? (
-                        <FileText className="h-6 w-6 text-purple-600" />
-                      ) : (
-                        <FileImage className="h-6 w-6 text-purple-600" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">{file.name}</p>
-                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                        <span>{formatFileSize(file.size)}</span>
-                        <span>•</span>
-                        <span>{formatDate(file.created_at)}</span>
-                        <span>•</span>
-                        <span className="inline-flex items-center gap-1 text-green-600">
-                          <CheckCircle className="h-3 w-3" />
-                          Submitted
-                        </span>
-                      </div>
-                    </div>
+                  <div>
+                    <p className="font-medium">{file.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {formatFileSize(file.size)} • {formatDate(file.created_at)}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex gap-2">
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
                       asChild
                     >
@@ -347,12 +258,11 @@ export default function DashboardPage() {
                       </a>
                     </Button>
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
                       onClick={() => handleDelete(file.id, file.url.split('/').pop() || '')}
-                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
                     >
-                      <Trash2Icon className="h-4 w-4" />
+                      Delete
                     </Button>
                   </div>
                 </div>
