@@ -169,7 +169,7 @@ function SignInForm() {
             {/* Sign Up Link */}
             <div className="text-center pt-4">
               <span className="text-sm text-gray-600">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/sign-up" className="font-semibold text-indigo-600 hover:text-indigo-800 transition-colors">
                   Sign up for free
                 </Link>
