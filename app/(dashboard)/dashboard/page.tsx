@@ -22,7 +22,7 @@ export default function DashboardPage() {
   const [uploading, setUploading] = useState(false)
   const [files, setFiles] = useState<FileRecord[]>([])
   const [error, setError] = useState<string | null>(null)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
